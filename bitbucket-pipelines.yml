@@ -1,0 +1,48 @@
+image: cypress/included:13.17.0
+
+pipelines:
+  default:
+    - step:
+        name: Run Cypress Tests
+        script:
+          - echo "=== Project Structure ==="
+          - ls -la
+          - echo "=== Cypress Folder ==="
+          - ls -la cypress/ || echo "No cypress folder found"
+          - echo "=== Installing Dependencies ==="
+          - npm ci --only=production
+          - echo "=== Cypress Info ==="
+          - npx cypress info
+          - echo "=== Running Tests ==="
+          - npx cypress run --config video=false
+        after-script:
+          - echo "Tests completed with exit code $BITBUCKET_EXIT_CODE"
+        artifacts:
+          - cypress/screenshots/**
+          - cypress/videos/**
+    - step:
+        name: Notify Success
+        script:
+          - pipe: atlassian/slack-notify:2.0.0
+            variables:
+              WEBHOOK_URL: $SLACK_WEBHOOK_URL
+              MESSAGE: "✅ Cypress Tests PASSED on branch $BITBUCKET_BRANCH"
+        condition:
+          changesets:
+            includePaths:
+              - "**"
+    - step:
+        name: Notify Failure
+        script:
+          - pipe: atlassian/slack-notify:2.0.0
+            variables:
+              WEBHOOK_URL: $SLACK_WEBHOOK_URL
+              MESSAGE: "❌ Cypress Tests FAILED on branch $BITBUCKET_BRANCH"
+
+  custom:
+    deployment:
+      - step:
+          name: Deploy
+          deployment: test
+          script:
+            - echo "Deployment step"

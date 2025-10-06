@@ -4,13 +4,15 @@ pipelines:
   default:
     - step:
         name: Run Cypress Tests
+        caches:
+          - node
         script:
           - echo "=== Project Structure ==="
           - ls -la
           - echo "=== Cypress Folder ==="
           - ls -la cypress/ || echo "No cypress folder found"
           - echo "=== Installing Dependencies ==="
-          - npm ci --only=production
+          - npm ci
           - echo "=== Cypress Info ==="
           - npx cypress info
           - echo "=== Running Tests ==="

@@ -15,7 +15,7 @@ describe('My First Test Suite', function () {
         AddWarehouse.password().type('Qwerty1$');
         AddWarehouse.loginBtn().click()
         // AddProject.overlappingCloseBtn().click()
-        AddWarehouse.acceptCookiesBtn()
+        AddWarehouse.acceptCookiesBtn().click()
           // აქამდე კოდი არის შესვლა მხოლოდ
           AddWarehouse.warehouseListPage()
           // cy.wait(7000)
@@ -35,7 +35,7 @@ describe('My First Test Suite', function () {
         AddWarehouse.randomGeofence()
          cy.wait(1000);
           AddWarehouse.addWarehouse().click({ force: true });
-            cy.wait(3000)|
+            cy.wait(3000)| 
           AddWarehouse.warehouseSearch().click().type(warehouseName);
          AddWarehouse.firstWarehouse().contains(warehouseName).click()
         AddWarehouse.editWarehouseBtn().click()

@@ -23,6 +23,7 @@ describe('My First Test Suite', function () {
   
           // აქამდე კოდი არის შესვლა მხოლოდ
           AddProjectAndDelete.floatingMenuBtn().click()
+          cy.wait(2000)
           AddProjectAndDelete.floatingAddProject().click()
           // რუკაზე ჯერ სერჩში ჩაწერა შემდეგ პირველივე მონიშვნა მონიშვნა
           AddProjectAndDelete.costCenterField().click().type(`Automation cost`)    
@@ -53,8 +54,13 @@ cy.wait(3000)
 
 cy.get('.shl-form-field-flex').click().type(projectName);
 cy.wait(3000)
-         AddProjectAndDelete.firstProject().contains(projectName).click()
-         AddProjectAndDelete.deleteProjectBtn().click()
+
+         // Click on first element in the list container that contains project name
+         cy.get('.ag-body-viewport > .ag-viewport').contains(projectName).click()
+         cy.get('[data-cy="project-information-dots"]').click()
+         // Click on third element in the dropdown menu (alternative approach)
+         cy.get('[role="menu"]').find('button').eq(2).click()
+        //  AddProjectAndDelete.deleteProjectBtn().click()
          AddProjectAndDelete.deleteProjectYesBtn().click()
           });
       });

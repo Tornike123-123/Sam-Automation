@@ -22,6 +22,7 @@ describe('My First Test Suite', function () {
     // Continue with other steps
 cy.wait(4000)
     AddProject.floatingMenuBtn().click({force: true});
+    cy.wait(4000)
     AddProject.floatingAddProject().click()
     cy.wait(4000)
     AddProject.costCenterField().click().type(`Automation cost`)    
@@ -53,9 +54,13 @@ cy.wait(4000)
 cy.wait(3000)
 
 cy.get('.shl-form-field-flex').click().type(projectName);
-cy.wait(3000)
-   AddProject.firstProject().contains(projectName).click()
-   AddProject.editProjectBtn().click()
+cy.wait(2000)
+cy.get('.ag-body-viewport > .ag-viewport').contains(projectName).click()
+cy.wait(2000)
+cy.get('[data-cy="project-information-dots"]').click()
+cy.get('[role="menu"]').find('button').eq(0).click()
+cy.wait(2000)
+
    AddProject.costCenterField().click().type(`1`)
    AddProject.projectTitleField().click().type(`1`)
    AddProject.branchField().click()
@@ -66,9 +71,10 @@ cy.wait(3000)
           AddProject.responsibleDropdown().contains(' asdsada, wqewqdsa ').click()
           AddProject.updateProjectBtn().click({ force: true })       
           cy.wait(3000)
-          AddProject.firstProject().contains(projectName).click()
+          cy.get('.ag-body-viewport > .ag-viewport').contains(projectName).click()
           //delete
-          AddProject.deleteProjectBtn().click()
+          cy.get('[data-cy="project-information-dots"]').click()
+          cy.get('[role="menu"]').find('button').eq(2).click()
           AddProject.deleteProjectYesBtn().click()
   });
 });

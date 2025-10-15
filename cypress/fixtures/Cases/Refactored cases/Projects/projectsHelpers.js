@@ -25,7 +25,13 @@ export class ProjectsHelpers {
         this.elements.password().type(credentials.password);
         this.elements.loginBtn().click();
         cy.wait(waitTimes.login);
-        this.elements.acceptCookiesBtn().click();
+        
+        // Try to accept cookies if the dialog is visible
+        cy.get('body').then(($body) => {
+            if ($body.find('.ch2-dialog:visible').length > 0) {
+                this.elements.acceptCookiesBtn().click({ force: true });
+            }
+        });
     }
 
     /**

@@ -25,7 +25,13 @@ export class WarehouseHelpers {
         this.elements.userName().type(credentials.email);
         this.elements.password().type(credentials.password);
         this.elements.loginBtn().click();
-        this.elements.acceptCookiesBtn().click();
+        
+        // Try to accept cookies if the dialog is visible
+        cy.get('body').then(($body) => {
+            if ($body.find('.ch2-dialog:visible').length > 0) {
+                this.elements.acceptCookiesBtn().click({ force: true });
+            }
+        });
     }
 
     /**

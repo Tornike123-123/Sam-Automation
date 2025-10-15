@@ -9,10 +9,7 @@ module.exports = defineConfig({
     specPattern: 'cypress/fixtures/**/*.js',
     defaultCommandTimeout: 20000,
     pageLoadTimeout: 20000,
-    // experimantalStudio: true,
-    experimentalStudio:true,
+    experimentalStudio: true,
     includeShadowDom: true,
-     experimentalSessionAndOrigin: true,
-     experimentalShadowDomSupport: true,
   },
 });

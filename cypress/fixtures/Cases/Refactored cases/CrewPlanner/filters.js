@@ -1,21 +1,20 @@
-import { CrewPlannerElements } from '../../../../fixtures/Cases/Elements/CrewElements/CrewPlannerElements.js';
+/**
+ * CrewPlanner - Filters Test
+ * Tests the filtering functionality in the CrewPlanner module
+ */
 
-describe('Crew planner filters', () => {
+import { setupCrewPlannerTest, navigateToCrewPlanner } from './crewPlannerConfig.js';
+
+describe('CrewPlanner - Filter Functionality', () => {
     beforeEach(() => {
-        const email = "reg.driver@syniotec.com";
-        const password = "Qwerty1$";
-        cy.session('login', () => {
-            cy.SAMlogin(email, password);
-                        cy.window().then((win) => {
-                win.sessionStorage.setItem('message_bubbles_have_been_shown', 'true');
-            });
-        });
+        setupCrewPlannerTest();
     });
-    it('', () => {
+
+    it('should test all available filters in the CrewPlanner', () => {
+        // Navigate to CrewPlanner page
+        navigateToCrewPlanner();
         
-        const crewElements = new CrewPlannerElements();
-        cy.visit('https://sam.dev.syniotec.com/new-crew-planner');
-        //cy.wait(5000);
+        // Execute filter tests using custom command
         cy.CrewPlannerFilters();
-    })
+    });
 });

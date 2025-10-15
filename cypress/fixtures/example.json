@@ -1,4 +1,12 @@
 {
-  "email": "t.vatiashvili@syniotec.com",
-  "password": "Qwerty$1"
+  "users": {
+    "admin": {
+      "email": "t.vatiashvili@syniotec.com",
+      "password": "Qwerty$1"
+    },
+    "testUser": {
+      "email": "reg.driver@syniotec.com",
+      "password": "Qwerty1$"
+    }
+  }
 }

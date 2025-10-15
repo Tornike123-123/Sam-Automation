@@ -1,26 +1,23 @@
-import { DatabaseElements } from '../../Elements/EquipmentElements/DatabaseElements.js';
+/**
+ * Database - Add and Delete Equipment Test
+ * Tests the creation and deletion of equipment in the Database module
+ */
 
-describe('Adds and Deletes new Group', () => {
+import { setupDatabaseTest, navigateToDatabase } from './databaseConfig.js';
+import { addAndDeleteEquipment } from './databaseHelpers.js';
+
+describe('Database - Equipment Management', () => {
     beforeEach(() => {
-        const email = "reg.driver@syniotec.com";
-        const password = "Qwerty1$";
-        cy.session('login', () => {
-            cy.SAMlogin(email, password);
-                        cy.window().then((win) => {
-                win.sessionStorage.setItem('message_bubbles_have_been_shown', 'true');
-            });
-        });
+        setupDatabaseTest();
     });
-    
-    it('should add project', function () {
-        const addEquipment = new DatabaseElements()
 
-         cy.AddEquipment();
-                     cy.wait(10000);
-            cy.DeleteEquipment();
-            cy.wait(4000);
-
-        });
+    it('should add equipment and then delete it successfully', () => {
+        // Navigate to Database page
+        navigateToDatabase();
+        
+        // Add and delete equipment
+        addAndDeleteEquipment();
+    });
 });
   
 

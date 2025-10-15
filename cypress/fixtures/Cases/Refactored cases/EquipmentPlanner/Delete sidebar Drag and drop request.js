@@ -1,37 +1,46 @@
-import { CrewsElements, EquipmentPlannerElements } from '../../Elements/EquipmentElements/EquipmentPlannerElements.js';
+/**
+ * EquipmentPlanner - Delete Sidebar Drag and Drop Request Test
+ * Tests drag and drop functionality from sidebar and then deleting the booking
+ */
 
-describe('Adds Equipment Booking', () => {
+import { setupEquipmentPlannerTest, navigateToEquipmentPlanner, EQUIPMENT_PLANNER_CONFIG } from './equipmentPlannerConfig.js';
+import { EquipmentPlannerHelpers } from './equipmentPlannerHelpers.js';
+
+describe('EquipmentPlanner - Sidebar Drag and Drop Request Management', () => {
+    let helpers;
+
     beforeEach(() => {
-        const email = "reg.driver@syniotec.com";
-        const password = "Qwerty1$";
-        cy.session('login', () => {
-            cy.SAMlogin(email, password);
-        });
+        setupEquipmentPlannerTest();
+        helpers = new EquipmentPlannerHelpers();
     });
-    it('', () => {
-        const dragAndDeleteSideBarRequest = new EquipmentPlannerElements();
-        cy.visit('https://sam.dev.syniotec.com/planner/calendar');
-        cy.viewport(1920, 1080);
-        cy.wait(10000);
-        dragAndDeleteSideBarRequest.EqPlannerSearchByNameFilter().click().type('{selectAll}{backspace}');
-        dragAndDeleteSideBarRequest.EqPlannerSearchByNameFilter().type('13.03.2025 EQ N1');
-        cy.wait(3000);
-        dragAndDeleteSideBarRequest.eqSidebar().click({force: true});
-cy.wait(3000);
-cy.get('.shl-button-dir').click({force: true}).click({force: true}).click({force: true});
-cy.get('#cdk-menu-1 > [tabindex="0"]').should('be.visible').click({force: true});
-cy.wait(3000);
 
-        dragAndDeleteSideBarRequest.eqSidebarFirstRequest().click().realMouseDown();
-        cy.get('.mbsc-flex-1-0 > :nth-child(20) > .mbsc-flex > .mbsc-flex-1-1').click() // Simulates dropping the element
-        dragAndDeleteSideBarRequest.EqBookingClose().click()
-        cy.get('.filled').click()
-        dragAndDeleteSideBarRequest.eqPlannerGetBooking().rightclick({ multiple: true, Force : true });
-        dragAndDeleteSideBarRequest.eqPlannerEditBtn().click();
-        dragAndDeleteSideBarRequest.EqBookingDelete().click()
-        dragAndDeleteSideBarRequest.eqPlannerDeleteYesBtn().click()
-       
+    it('should drag and drop a request from sidebar and then delete the booking', () => {
+        // Navigate to EquipmentPlanner page
+        navigateToEquipmentPlanner();
         
+        // Search for specific equipment
+        helpers.searchEquipmentByName('13.03.2025 EQ N1');
+        cy.wait(EQUIPMENT_PLANNER_CONFIG.waitTimes.long);
+        
+        // Open sidebar
+        helpers.elements.getEquipmentSidebar().click({ force: true });
+        cy.wait(EQUIPMENT_PLANNER_CONFIG.waitTimes.long);
+        
+        // Click dropdown menu multiple times
+        cy.get('.shl-button-dir').click({ force: true }).click({ force: true }).click({ force: true });
+        cy.get('#cdk-menu-1 > [tabindex="0"]').should('be.visible').click({ force: true });
+        cy.wait(EQUIPMENT_PLANNER_CONFIG.waitTimes.long);
 
-          });
-      });
+        // Drag and drop first request to timeline
+        helpers.elements.getFirstSidebarRequest().click().realMouseDown();
+        cy.get('.mbsc-flex-1-0 > :nth-child(20) > .mbsc-flex > .mbsc-flex-1-1').click(); // Simulates dropping the element
+        helpers.elements.getCloseBookingButton().click();
+        cy.get('.filled').click();
+        
+        // Delete the created booking
+        helpers.elements.getMainBookingEvent().rightclick({ multiple: true, force: true });
+        helpers.elements.getEditContextMenuItem().click();
+        helpers.elements.getDeleteBookingButton().click();
+        helpers.elements.getConfirmationFilledButton().click();
+    });
+});

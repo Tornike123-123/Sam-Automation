@@ -1,51 +1,21 @@
-import { CrewsElements, EquipmentPlannerElements } from '../../Elements/EquipmentElements/EquipmentPlannerElements.js';
+/**
+ * EquipmentPlanner - Add and Delete Equipment Booking Test
+ * Tests the creation and deletion of equipment bookings
+ */
 
-describe('Adds Equipment Booking', () => {
+import { setupEquipmentPlannerTest, navigateToEquipmentPlanner } from './equipmentPlannerConfig.js';
+import { createAndDeleteSingleBooking } from './equipmentPlannerHelpers.js';
+
+describe('EquipmentPlanner - Equipment Booking Management', () => {
     beforeEach(() => {
-        const email = "reg.driver@syniotec.com";
-        const password = "Qwerty1$";
-        cy.session('login', () => {
-            cy.SAMlogin(email, password);
-                        cy.window().then((win) => {
-                win.sessionStorage.setItem('message_bubbles_have_been_shown', 'true');
-            });
-        });
+        setupEquipmentPlannerTest();
     });
-    it('', () => {
-        const AddEquipmentBooking = new EquipmentPlannerElements();
-       
-        cy.visit('https://sam.dev.syniotec.com/planner/calendar');
 
-        cy.wait(10000);
-       AddEquipmentBooking.EqPlannerSearchByNameFilter().click().type('{selectAll}{backSpace}');
-
-        AddEquipmentBooking.EqPlannerSearchByNameFilter().type('DON\'T USE N2');
-        AddEquipmentBooking.EqBookingButton().click();
+    it('should create an equipment booking and delete it successfully', () => {
+        // Navigate to EquipmentPlanner page
+        navigateToEquipmentPlanner();
         
-        AddEquipmentBooking.EqBookingProject().type('Proj');
-        AddEquipmentBooking.EqBookingProjectChild().click();
-
-        AddEquipmentBooking.EqBookingEquipment().type('DON\'T USE N2');
-        AddEquipmentBooking.EqBookingEquipmentChild().click();
-        cy.get('.cdk-overlay-backdrop').invoke('css', 'pointer-events', 'none');  
-        cy.get('[data-cy="booking-drawer-equipment"] > .shl-select > .shl-select-inputs-container > .ng-valid > .input > .input-content-container > .input-flex-box > .action > .shl-select-close').click()
-        
-        AddEquipmentBooking.EqBookingContainer().type('This is a test');
-        AddEquipmentBooking.EqBookingSave().click();
-
-        cy.wait(2000)
-
-        AddEquipmentBooking.EqPlannerSearchByNameFilter().type('DON\'T USE N2');
-        cy.wait(3000)
-
-        cy.get('.main-event').rightclick({ multiple: true, Force : true });
-
-        cy.get('[data-cy="context-menu-edit"]').click();
-
-        AddEquipmentBooking.EqBookingDelete().click()
-
-        cy.get('.confirmation__actions > .filled').click()
-        cy.wait(2000)
+        // Create and delete equipment booking
+        createAndDeleteSingleBooking();
     });
-    
 });

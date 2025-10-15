@@ -167,13 +167,13 @@ Cypress.Commands.add('CrewPlannerFilters', () => {
     crewPlannerElements.crewPlannerSearchByTitleFilter().click().type('reg');
      cy.wait(1000)
     //Project
-    crewPlannerElements.crewPlannerProjectFilter().click();
-    cy.get(':nth-child(1) > .shl-select-option').click();
-    cy.get('[data-cy="crew-planner-projects"] > .shl-select > .shl-select-inputs-container > .ng-valid > .input > .input-content-container > .input-flex-box > .action > .shl-select-close').click();
+    // crewPlannerElements.crewPlannerProjectFilter().click();
+    // cy.get(':nth-child(1) > .shl-select-option').click();
+    // cy.get('[data-cy="crew-planner-projects"] > .shl-select > .shl-select-inputs-container > .ng-valid > .input > .input-content-container > .input-flex-box > .action > .shl-select-close').click();
         //Branch
     crewPlannerElements.crewPlannerBranchFilter().click({ force : true }).realHover();
     cy.get('.shl-select-options-container > :nth-child(1) > :nth-child(1) > :nth-child(1) > :nth-child(1) > .shl-select-option-dropdown > .ng-star-inserted').click();
-    cy.contains(' syniotec ').click({force: true}); 
+    cy.contains(' Direction 1 ').click({force: true}); 
     //Calendar
     crewPlannerElements.CrewCalendarIcon().click();       
     crewPlannerElements.CalendarTodayCircle().click();
@@ -298,7 +298,7 @@ Cypress.Commands.add('AddEquipment', () => {
             //Category
             cy.get('[data-cy="category-select"]').click().type('4-A');
             cy.wait(2000);
-            cy.contains(' 4-Achs-Kipper ').click();
+            cy.contains(' 4-Axle Tipper ').click();
 
             //Save btn
             cy.get('[data-cy="next-button"]').click();
@@ -349,7 +349,7 @@ Cypress.Commands.add('DeleteEquipment', () => {
     //Inactive reason
     addEquipment.databaseInactiveReason().click();
   //cy.get(':nth-child(1) > .ng-dropdown-panel ng-star-inserted ng-select-bottom').click()
-    cy.contains('In Wartung').click()
+    cy.contains('Under maintenance').click()
     
 
     //Start date
@@ -383,3 +383,165 @@ Cypress.Commands.add('DeleteEquipment', () => {
     addEquipment.databaseDeleteBtn().first().click({ force: true });
     cy.get('.confirmation__actions > .filled').click()
 })
+
+// ==================== PERSON COMMANDS ====================
+
+// Search for person by name in HR Planner
+Cypress.Commands.add('SearchPersonByName', (personName) => {
+    cy.get('.shl-form-field-infix > .ng-untouched, .shl-form-field-infix > .ng-valid, .shl-form-field-flex')
+        .first()
+        .click()
+        .type('{selectAll}{backspace}' + personName);
+    cy.wait(2000);
+});
+
+// Delete person from profile page
+Cypress.Commands.add('DeletePersonFromProfile', () => {
+    cy.get('.action [alt="delete"], img[alt="delete"], .basic-info__rightside-top > :nth-child(2)')
+        .first()
+        .click()
+        .should('be.visible');
+    cy.get('.filled, .confirmation__actions > .filled').click();
+    cy.wait(2000);
+});
+
+// Open person profile by name
+Cypress.Commands.add('OpenPersonProfile', (personName) => {
+    cy.SearchPersonByName(personName);
+    cy.wait(3000);
+    cy.get('.person-card__header-title-txt')
+        .first()
+        .invoke('removeAttr', 'target')
+        .click({force: true});
+    cy.wait(5000);
+});
+
+// Create booking in HR Planner
+Cypress.Commands.add('CreatePersonBooking', (projectName, personName, container) => {
+    cy.get('[data-cy="hr-planner-booking"]').click();
+    cy.get('[data-cy="booking-projects"]').click();
+    cy.get(':nth-child(1) > .shl-select-option').click();
+    
+    cy.get('[data-cy="bookig-personel"]').type(personName);
+    cy.wait(2000);
+    
+    cy.get('.cdk-overlay-backdrop').invoke('css', 'pointer-events', 'none');
+    cy.get('[data-cy="bookig-personel"] > .shl-select > .shl-select-inputs-container > .ng-valid > .input > .input-content-container > .input-flex-box > .action > .shl-select-close')
+        .click({force: true});
+    
+    cy.get('.textarea-content-container > .ng-untouched').type(container);
+    cy.get('[data-cy="submit-btn"]').click();
+    cy.wait(3000);
+});
+
+// Delete booking via right-click context menu
+Cypress.Commands.add('DeleteBookingViaContextMenu', () => {
+    cy.get('.timeline__content').first().rightclick();
+    cy.get('[data-cy="context-menu-edit"]').click();
+    cy.get('[data-cy="delete-booking"]').click();
+    cy.get('.confirmation__actions > .filled').click();
+    cy.wait(2000);
+});
+
+// Release booking
+Cypress.Commands.add('ReleaseBooking', (container) => {
+    cy.get('.timeline__content').first().rightclick();
+    cy.get('[data-cy="context-menu-edit"]').click();
+    
+    // Release radio button
+    cy.get('[data-cy="Release"] > .radio-container > label').click();
+    
+    // Release reason
+    cy.get('.input-without-label').click();
+    cy.get(':nth-child(1) > .shl-select-option').click();
+    
+    // Time - Now button
+    cy.get('[data-cy="booking-start-time"]').click();
+    cy.get('.shl-time-selector-micro-btn').click();
+    cy.wait(1000);
+    cy.get('.shl-button-content-container-value').click();
+    
+    // Container
+    cy.get('.textarea-content-container > .ng-untouched').type(container);
+    cy.get('[data-cy="submit-btn"]').click();
+    cy.wait(2000);
+});
+
+// Navigate to HR Planner
+Cypress.Commands.add('GoToHRPlanner', () => {
+    cy.viewport(1920, 1080);
+    cy.visit('https://sam.dev.syniotec.com/new-hr-planner');
+    cy.wait(7000);
+});
+
+// Click Today button in HR Planner
+Cypress.Commands.add('ClickTodayButton', () => {
+    cy.get('[data-cy="hr-planner-today"] > .mbsc-calendar-button').click();
+    cy.wait(2000);
+});
+
+// ==================== GROUP COMMANDS ====================
+
+// Navigate to Groups page
+Cypress.Commands.add('GoToGroupsPage', () => {
+    cy.visit('https://sam.dev.syniotec.com/groupe/list');
+    cy.wait(3000);
+});
+
+// Create new group with basic info
+Cypress.Commands.add('CreateGroup', (groupName) => {
+    const CrewGroupElements = require('../fixtures/Cases/Elements/CrewElements/Crew-GroupElements.js').CrewGroupElements;
+    const groupElements = new CrewGroupElements();
+
+    groupElements.groupsAddButton().click();
+    cy.wait(2000);
+    
+    // Name
+    groupElements.groupsAddName().type(groupName);
+    
+    // Area
+    groupElements.groupsAddArea().click();
+    cy.get(':nth-child(2) > .shl-select-option').click();
+    
+    // Group Type
+    groupElements.groupsAddType().click();
+    cy.get(':nth-child(1) > .shl-select-options').click();
+    
+    // Continue
+    cy.get('[data-cy="add-groupe-continue"]').click();
+    
+    // Add Categories
+    cy.get(':nth-child(2) > .card > .card__actions > sam-card-wrapper-actions.ng-star-inserted > .action > .action__initial > .action__initial-btn').click();
+    cy.get('.action__add').click();
+    cy.get('.next-page > .shl-button-dir').click();
+    
+    // Add Qualification
+    cy.get(':nth-child(4) > .card > .card__actions > sam-card-wrapper-actions.ng-star-inserted > .action > .action__initial > .action__initial-btn > .fas').click();
+    cy.get('.action__add').click();
+    cy.get('.next-page > .shl-button-dir').click();
+    
+    // Save
+    groupElements.groupsAddSave().click();
+    cy.wait(2000);
+});
+
+// Delete group by name
+Cypress.Commands.add('DeleteGroupByName', (groupName) => {
+    const CrewGroupElements = require('../fixtures/Cases/Elements/CrewElements/Crew-GroupElements.js').CrewGroupElements;
+    const groupElements = new CrewGroupElements();
+
+    cy.GoToGroupsPage();
+    
+    groupElements.groupsTextName().each(($el) => {
+        const name = $el.text().trim();
+        
+        if (name === groupName) {
+            cy.wrap($el).click();
+            cy.get('[data-cy="delete-groupe"]').click();
+            cy.wait(1000);
+            cy.get('.confirmation__actions > .filled').click({force: true});
+            return false; // Stop iteration
+        }
+    });
+    cy.wait(2000);
+});

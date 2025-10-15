@@ -1,80 +1,23 @@
 /// <reference types="cypress" />
-import { ProjectElements } from '../../Elements/ProjectElements/ProjectElements.js';
+import { ProjectsHelpers } from './projectsHelpers.js';
+import { setupProjectsTest } from './projectsConfig.js';
 
-describe('My First Test Suite', function () {
-  before(function () {
-    cy.fixture('example').then(function (data) {
-      this.data = data;
+describe('Projects - Add, Edit and Delete', function () {
+    before(function () {
+        cy.fixture('example').then(function (data) {
+            this.data = data;
+        });
     });
-  });
 
-  it('should add project', function () {
-   
-    
-      const AddProject = new ProjectElements();
-      AddProject.samUrl()
-        AddProject.userName().type('reg.driver@syniotec.com');
-        AddProject.password().type('Qwerty1$');
-        AddProject.loginBtn().click()
-        cy.wait(10000 ) 
-        AddProject.acceptCookiesBtn().click();
-    
-    // Continue with other steps
-cy.wait(4000)
-    AddProject.floatingMenuBtn().click({force: true});
-    cy.wait(4000)
-    AddProject.floatingAddProject().click()
-    cy.wait(4000)
-    AddProject.costCenterField().click().type(`Automation cost`)    
-    const projectName = "Cypress_test"+ new Date().toString();
-    AddProject.projectTitleField().click().type(projectName)
-
-     // ბრენჩის არჩევა
-    AddProject.branchField().click()
- 
-    // AddProject.branchDropdown().click()
-    cy.wait(2000)
-    AddProject.branchContainer().contains(' Direction 1 ').click()
-    //responsible person არჩევა
-    AddProject.responsiblePersonField().click()
-    AddProject.responsibleDropdown().contains(' asdsada, wqewqdsa ').click()
-// description ჩაწერა
-    AddProject.description().click().type(`Description`)        
-    
-    
-    AddProject.mapSearch().click().type(`Réuni`)
-    AddProject.mapSearchDropdown().should(`be.visible`)
-    AddProject.reunionClick()
-    cy.wait(2000)
-    AddProject.randomGeofence()
-
-    cy.wait(1000);
-    AddProject.addProjectBtn().click({ force: true });
-
-cy.wait(3000)
-
-cy.get('.shl-form-field-flex').click().type(projectName);
-cy.wait(2000)
-cy.get('.ag-body-viewport > .ag-viewport').contains(projectName).click()
-cy.wait(2000)
-cy.get('[data-cy="project-information-dots"]').click()
-cy.get('[role="menu"]').find('button').eq(0).click()
-cy.wait(2000)
-
-   AddProject.costCenterField().click().type(`1`)
-   AddProject.projectTitleField().click().type(`1`)
-   AddProject.branchField().click()
-   AddProject.branchContainer().contains(` Direction 2 `).click()
-   AddProject.description().click({ force: true }).type(`Description1`)
-          cy.wait(2000)
-          AddProject.responsiblePersonField().click()
-          AddProject.responsibleDropdown().contains(' asdsada, wqewqdsa ').click()
-          AddProject.updateProjectBtn().click({ force: true })       
-          cy.wait(3000)
-          cy.get('.ag-body-viewport > .ag-viewport').contains(projectName).click()
-          //delete
-          cy.get('[data-cy="project-information-dots"]').click()
-          cy.get('[role="menu"]').find('button').eq(2).click()
-          AddProject.deleteProjectYesBtn().click()
-  });
+    it('should add project, edit it, then delete', function () {
+        setupProjectsTest();
+        
+        const helpers = new ProjectsHelpers();
+        helpers.login();
+        
+        const projectName = helpers.createEditAndDeleteProject();
+        
+        // Verify project was created, edited and deleted successfully
+        cy.log(`Project ${projectName} was created, edited and deleted successfully`);
+    });
 });

@@ -1,44 +1,51 @@
-import { CrewsElements, EquipmentPlannerElements } from '../../Elements/EquipmentElements/EquipmentPlannerElements.js';
+/**
+ * EquipmentPlanner - Add Person to Equipment Test
+ * Tests adding a person to equipment and then removing the connection
+ */
 
-describe('Adds Equipment Booking', () => {
+import { setupEquipmentPlannerTest, navigateToEquipmentPlanner, EQUIPMENT_PLANNER_CONFIG } from './equipmentPlannerConfig.js';
+import { EquipmentPlannerHelpers } from './equipmentPlannerHelpers.js';
+
+describe('EquipmentPlanner - Person to Equipment Management', () => {
+    let helpers;
+
     beforeEach(() => {
-        const email = "reg.driver@syniotec.com";
-        const password = "Qwerty1$";
-        cy.session('login', () => {
-            cy.SAMlogin(email, password);
-                        cy.window().then((win) => {
-                win.sessionStorage.setItem('message_bubbles_have_been_shown', 'true');
+        setupEquipmentPlannerTest();
+        helpers = new EquipmentPlannerHelpers();
+        
+        // Prevent new tabs from opening - must be AFTER visit
+        cy.window().then((win) => {
+            cy.stub(win, 'open').callsFake((url) => {
+                win.location.href = url;
             });
         });
     });
-    it('', () => {
-        const dragAndDeleteSideBarRequest = new EquipmentPlannerElements();
-        cy.visit('https://sam.dev.syniotec.com/planner/calendar');
-        cy.wait(10000);
-                dragAndDeleteSideBarRequest.EqPlannerSearchByNameFilter().click().type('{selectAll}{backspace}');
-        dragAndDeleteSideBarRequest.EqPlannerSearchByNameFilter().type('14.03.2025 Eq N1');
-        cy.wait(3000);
-        dragAndDeleteSideBarRequest.EqPlannerSearchByNameFilter().click().type('{selectAll}{backspace}');
-        dragAndDeleteSideBarRequest.EqPlannerSearchByNameFilter().type('14.03.2025 Eq N1');
-        cy.wait(3000);
-        dragAndDeleteSideBarRequest.EqPlannerInfoPopupIcon().click();
-        cy.get('.equipment-info__add-relation-button').click();
 
-        cy.get('.dialog__content-item > .ng-valid.ng-star-inserted > .shl-select > .shl-select-inputs-container > .ng-valid > .input > .input-content-container > .input-flex-box').click();
-// dropdown magla
-cy.get(':nth-child(1) > .shl-select-option').click();
-cy.get('.filled').click(); //add connection btn
-cy.get('[data-cy="equipment-info-close"]').click(); // close info popup
-dragAndDeleteSideBarRequest.EqPlannerInfoPopupIcon().click();
-cy.wait(8000);
-cy.window().then((win) => {
-    cy.stub(win, 'open').callsFake((url) => {
-      win.location.href = url;
+    it('should add a person to equipment and then remove the connection', () => {
+        // Navigate to EquipmentPlanner page
+        navigateToEquipmentPlanner();
+        
+        // Search for specific equipment
+        helpers.searchEquipmentByName('14.03.2025 Eq N1');
+        cy.wait(EQUIPMENT_PLANNER_CONFIG.waitTimes.long);
+        
+        // Open equipment info popup
+        helpers.elements.getEquipmentInfoPopupIcon().click();
+        cy.get('[data-cy="equipment-info-profile"]').click();
+
+        // Add person to equipment
+        cy.get('.button.ng-star-inserted').click();
+        cy.get('.input-flex-box').click();
+        
+        // Select first person from dropdown
+        cy.get(':nth-child(1) > .shl-select-option').click();
+        
+        // Confirm connection
+        cy.get('.filled').click();
+        cy.wait(EQUIPMENT_PLANNER_CONFIG.waitTimes.medium);
+        
+        // Remove person from equipment
+        helpers.elements.getDeletePersonButton().click();
+        helpers.elements.getDeleteConnectionButton().click();
     });
-  });
-  
-  cy.get('[data-cy="equipment-info-profile"]').click();
-  dragAndDeleteSideBarRequest.EqPlannerDeletePersonBtn().click();
-  dragAndDeleteSideBarRequest.EqPlannerDeleteConnectionBtn().click();
-          });
-      });
+});

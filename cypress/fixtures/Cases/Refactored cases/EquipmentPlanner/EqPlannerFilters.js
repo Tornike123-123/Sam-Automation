@@ -1,37 +1,21 @@
-import { EquipmentPlannerElements } from '../../Elements/EquipmentElements/EquipmentPlannerElements.js';
+/**
+ * EquipmentPlanner - Filters Test
+ * Tests the filtering functionality in the EquipmentPlanner module
+ */
 
-describe('Testing Equipment planner filters', () => {
+import { setupEquipmentPlannerTest, navigateToEquipmentPlanner } from './equipmentPlannerConfig.js';
+import { testEquipmentPlannerFilters } from './equipmentPlannerHelpers.js';
+
+describe('EquipmentPlanner - Filter Functionality', () => {
     beforeEach(() => {
-        const email = "reg.driver@syniotec.com";
-        const password = "Qwerty1$";
-        cy.session('login', () => {
-            cy.SAMlogin(email, password);
-                        cy.window().then((win) => {
-                win.sessionStorage.setItem('message_bubbles_have_been_shown', 'true');
-            });
-        });
+        setupEquipmentPlannerTest();
     });
 
-    it('', () => {
-        const eqPlannerFilters = new EquipmentPlannerElements();
-       
-        cy.visit('https://sam.dev.syniotec.com/planner/calendar');
-         cy.viewport(1920, 1080);
-        cy.wait(10000);
-        eqPlannerFilters.EqPlannerSearchByNameFilter().click().type('{selectAll}{backSpace}');
-        eqPlannerFilters.EqPlannerSearchByNameFilter().type('DON\'T USE N');
-        cy.wait(3000);
-        eqPlannerFilters.EqPlannerSearchByNameFilter().click().type('{selectAll}{backSpace}');
-        eqPlannerFilters.EqPlannerSearchByNameFilter().type('DON\'T USE N');
-
-        cy.wait(3000);
-        eqPlannerFilters.EqPlannerBranchFilter().click();
-        cy.get('.shl-select-options-container > :nth-child(1) > :nth-child(1) > :nth-child(1) > :nth-child(1)').click();
-        //close dropdown
-
-        eqPlannerFilters.EqPlannerCategoryFilter().click()
-        cy.get('.shl-select-options-container > :nth-child(1) > .shl-tree-option > .shl-tree-option-container > .shl-tree-option-parent').click()
-        //close dropdown 
+    it('should test all available filters in the EquipmentPlanner', () => {
+        // Navigate to EquipmentPlanner page
+        navigateToEquipmentPlanner();
         
+        // Test all equipment planner filters
+        testEquipmentPlannerFilters();
     });
 });

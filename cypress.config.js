@@ -7,8 +7,8 @@ module.exports = defineConfig({
       // implement node event listeners here
     },
     specPattern: 'cypress/fixtures/**/*.js',
-    defaultCommandTimeout: 40000,
-    pageLoadTimeout: 60000,
+    defaultCommandTimeout: 20000,
+    pageLoadTimeout: 20000,
     // experimantalStudio: true,
     experimentalStudio:true,
     includeShadowDom: true,

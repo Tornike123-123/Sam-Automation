@@ -1,62 +1,57 @@
-import { CrewsElements, EquipmentPlannerElements } from '../../Elements/EquipmentElements/EquipmentPlannerElements.js';
+/**
+ * EquipmentPlanner - Add Equipment to Crew and Delete Test
+ * Tests adding equipment to crew and removing it
+ */
 
-describe('Add Equipment To Crew', () => {
+import { setupEquipmentPlannerTest, navigateToEquipmentPlanner, EQUIPMENT_PLANNER_CONFIG } from './equipmentPlannerConfig.js';
+import { EquipmentPlannerHelpers } from './equipmentPlannerHelpers.js';
+
+describe('EquipmentPlanner - Equipment to Crew Management', () => {
+    let helpers;
+
     beforeEach(() => {
-        const email = "reg.driver@syniotec.com";
-        const password = "Qwerty1$";
-        cy.session('login', () => {
-            cy.SAMlogin(email, password);
-                        cy.window().then((win) => {
-                win.sessionStorage.setItem('message_bubbles_have_been_shown', 'true');
-            });
-        });
+        setupEquipmentPlannerTest();
+        helpers = new EquipmentPlannerHelpers();
     });
 
-    it('', () => {
-
-        const addEquipmentToCrew = new EquipmentPlannerElements();
-        cy.visit('https://sam.dev.syniotec.com/planner/calendar');
-        cy.wait(7000);
-        addEquipmentToCrew.EqPlannerSearchByNameFilter().click().type('{selectAll}{backSpace}');
-        addEquipmentToCrew.EqPlannerSearchByNameFilter().type('DON\'T USE N2');
-        cy.wait(3000);
-        addEquipmentToCrew.EqPlannerSearchByNameFilter().click().type('{selectAll}{backSpace}');
-        addEquipmentToCrew.EqPlannerSearchByNameFilter().type('DON\'T USE N2');
-        cy.wait(3000);
-        addEquipmentToCrew.EqPlannerCrewAddPlusBtn().click();
-
-        cy.wait(1000);
-
-        addEquipmentToCrew.EqPlannerCrewAddSearch().type('MyCrew');
-        cy.wait(2000);
-        //first option
+    it('should add equipment to crew, verify it cannot be booked, and then remove it from crew', () => {
+        // Navigate to EquipmentPlanner page
+        navigateToEquipmentPlanner();
+        
+        const { testData } = require('./equipmentPlannerConfig.js').EQUIPMENT_PLANNER_CONFIG;
+        
+        // Search for equipment
+        helpers.searchEquipmentByName(testData.equipmentName);
+        cy.wait(EQUIPMENT_PLANNER_CONFIG.waitTimes.long);
+        
+        // Add equipment to crew
+        helpers.elements.getCrewAddPlusButton().click();
+        cy.wait(EQUIPMENT_PLANNER_CONFIG.waitTimes.short);
+        
+        helpers.elements.getCrewAddSearchField().type('MyCrew');
+        cy.wait(EQUIPMENT_PLANNER_CONFIG.waitTimes.medium);
         cy.get('.shl-select-option').click();
-        cy.wait(2000);
-        addEquipmentToCrew.EqPlannerAddToCrewBtn().click();
-        cy.wait(3000);
+        cy.wait(EQUIPMENT_PLANNER_CONFIG.waitTimes.medium);
+        helpers.elements.getAddToCrewFinishButton().click();
+        cy.wait(EQUIPMENT_PLANNER_CONFIG.waitTimes.long);
 
-
-        //Equipment in a crew can not be booked
-
+        // Verify equipment is in crew (should show group icon)
         cy.get('.resource__top-actions__icon--group').should('be.visible');
         
-        addEquipmentToCrew.EqBookingButton().click();
-        addEquipmentToCrew.EqBookingProject().type('Proj');
-        addEquipmentToCrew.EqBookingProjectChild().click();
+        // Try to book equipment (should fail because it's in crew)
+        helpers.elements.getBookingButton().click();
+        helpers.elements.getBookingProjectField().type(testData.projectName);
+        helpers.elements.getFirstProjectOption().click();
         
-        addEquipmentToCrew.EqBookingEquipment().type('DON\'T USE N2');
-        cy.wait(2000);
+        helpers.elements.getBookingEquipmentField().type(testData.equipmentName);
+        cy.wait(EQUIPMENT_PLANNER_CONFIG.waitTimes.medium);
         cy.get('.shl-select-options-empty').should('be.visible');
         cy.get('.cdk-overlay-backdrop').invoke('css', 'pointer-events', 'none');  
-        addEquipmentToCrew.EqBookingClose().click();
+        helpers.elements.getCloseBookingButton().click();
 
-        
-        //Remove from crew
-
-        addEquipmentToCrew.EqPlannerCrewAddMinusBtn().click();
-
-        addEquipmentToCrew.EqPlannerAddToCrewBtn().click();
-        cy.wait(2000);
-        
+        // Remove equipment from crew
+        helpers.elements.getCrewAddMinusButton().click();
+        helpers.elements.getAddToCrewFinishButton().click();
+        cy.wait(EQUIPMENT_PLANNER_CONFIG.waitTimes.medium);
     });
 });

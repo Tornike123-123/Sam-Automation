@@ -1,36 +1,36 @@
-import { CrewsElements, EquipmentPlannerElements } from '../../Elements/EquipmentElements/EquipmentPlannerElements.js';
+/**
+ * EquipmentPlanner - Delete Sidebar Request Test
+ * Tests deleting a request from the sidebar
+ */
 
-describe('Adds Equipment Booking', () => {
+import { setupEquipmentPlannerTest, navigateToEquipmentPlanner, EQUIPMENT_PLANNER_CONFIG } from './equipmentPlannerConfig.js';
+import { EquipmentPlannerHelpers } from './equipmentPlannerHelpers.js';
+
+describe('EquipmentPlanner - Sidebar Request Management', () => {
+    let helpers;
+
     beforeEach(() => {
-        const email = "reg.driver@syniotec.com";
-        const password = "Qwerty1$";
-        cy.session('login', () => {
-            cy.SAMlogin(email, password);
-                        cy.window().then((win) => {
-                win.sessionStorage.setItem('message_bubbles_have_been_shown', 'true');
-            });
-        });
+        setupEquipmentPlannerTest();
+        helpers = new EquipmentPlannerHelpers();
     });
 
-    it('', () => {
-        const deleteSideBarRequest = new EquipmentPlannerElements();
-       
-        cy.visit('https://sam.dev.syniotec.com/planner/calendar');
-      cy.viewport(1920, 1080); 
-        cy.wait(10000);
-         deleteSideBarRequest.eqSidebar().click(); 
-        cy.wait(2000);
-        deleteSideBarRequest.eqSidebar().click(); 
-        cy.wait(2000);
-        deleteSideBarRequest.eqSidebar().click(); 
-        cy.wait(2000);
-        cy.get(':nth-child(1) > .request > .request__row-wrapper > .right > .right__button').click();
-        deleteSideBarRequest.eqSidebarDeleteYesBtn().click();
-      
-    
-
-        cy.wait(2000);    
+    it('should delete a request from the sidebar', () => {
+        // Navigate to EquipmentPlanner page
+        navigateToEquipmentPlanner();
         
+        // Open sidebar multiple times to ensure it's open
+        helpers.elements.getEquipmentSidebar().click();
+        cy.wait(EQUIPMENT_PLANNER_CONFIG.waitTimes.medium);
+        helpers.elements.getEquipmentSidebar().click();
+        cy.wait(EQUIPMENT_PLANNER_CONFIG.waitTimes.medium);
+        helpers.elements.getEquipmentSidebar().click();
+        cy.wait(EQUIPMENT_PLANNER_CONFIG.waitTimes.medium);
+        
+        // Click delete button on first request
+        cy.get(':nth-child(1) > .request > .request__row-wrapper > .right > .right__button').click();
+        helpers.elements.getSidebarDeleteYesButton().click();
+        
+        cy.wait(EQUIPMENT_PLANNER_CONFIG.waitTimes.medium);
     });
 });
 

@@ -1,92 +1,346 @@
+/**
+ * Crew and Group Elements Page Object Model
+ * Centralized selectors for Crew and Group related UI elements
+ */
 export class CrewGroupElements {
-
-// Crew and group list pages also Add Crew Add group flows
-// add crew button from crew list page
-addCrewBtn = () =>  cy.get('.add-crew__button')
- // warehouse and group search field
-crewSearch = () =>    cy.get('[data-cy="crew-page-search"]')      
-// group branch filter
-groupBranchFilter = () =>    cy.get('[data-cy="groupe-page-branch"]')         
-// crew branch filter
-crewBranchFilter = () =>    cy.get('[data-cy="crew-page-branch"]')  
-  // group Type filter
-groupTypeFilter = () =>    cy.get('[data-cy="groupe-page-type"]')     
- // crew Type filter
- crewTypeFilter = () =>    cy.get('[data-cy="crew-page-type"]')   
-       // crew Responsible person filter
- crewResponsiblePersonFilter = () =>    cy.get('[data-cy="crew-page-responsible-person"]') 
- //clear all filters 
- clearFilters = () =>    cy.get('[data-cy="clear-filters"]')     
- //crew detailes edit button
- crewDetailesEditBtn = () =>   cy.get('.kolone-details__button > .fas') 
-// add crew title field
-addCrewTitleField = () =>    cy.get('[data-cy="add-crew-title-field"]') 
-// add crew responsible person drpdwn
-addCrewResponsiblePersonField = () =>    cy.get('[data-cy="add-crew-responsible-field"]')  
-//add crew area  drpdwn
-addCrewAreaField = () =>    cy.get('[data-cy="add-crew-area-field"]')  
-//crew type drpdwn
-addCrewTypeField = () =>    cy.get('[data-cy="add-crew-type-field"]')   
-//Create crew Button
-createCrewButton = () =>    cy.get('[data-cy="add-crew-create-field"]') 
-//Add company car tab 
-addCompanyCarTab = () =>    cy.get('[data-cy="crew-add-car"]')  
-//add crew equipment tab
-addCrewEquipmentTab = () =>    cy.get('[data-cy="crew-add-equipment"]') 
-// add crew person tab 
-addCrewEquipmentTab = () =>    cy.get('[data-cy="crew-add-person"]') 
-// company car edit 
-companyCarEditBtn = () =>    cy.get('[data-cy="company-car-edit"]')    
-//general information tab
-generalInfoTab  = () =>    cy.get('[data-cy="crew-general-info"]')     
-//crew equipment tab 
-crewEquipmentTab  = () =>    cy.get('[data-cy="crew-equipment"]')      
-//crew personnel tab
-crewPersonnelTab  = () =>    cy.get('[data-cy="crew-person"]')  
-// crew overview tab 
-crewOerviewTab = () =>    cy.get('[data-cy="crew-overview"]') 
-//crew finish overview button 
- crewOerviewTab = () =>    cy.get('[data-cy="add-crew-finish"]')
- 
-
-//CrewBookingCalendarIcon
-CrewBookingCalendarIcon = () => cy.get('[data-cy="crew-start-date"] > .shl-date-picker > shl-input.ng-untouched > .input > .input-content-container > .input-flex-box > .action > .shl-select-calendar-btn')
-
-      // add group flow
-//Group add button
-groupsAddButton = () => cy.get('[data-cy="add-groupe"]')
-//Groups add name
-    groupsAddName = () => cy.get('[data-cy="add-groupe-name"] > .input > .input-content-container > .input-flex-box > .input-flex-item > .ng-untouched')
-//Groups add area
-    groupsAddArea = () => cy.get('[data-cy="add-area-dropdown"] > .shl-select > .shl-select-inputs-container > .ng-valid > .input > .input-content-container > .input-flex-box > .field > .ng-untouched')   
-//Groups add type
-    groupsAddType = () => cy.get('[data-cy="add-type-dropdown"] > .shl-select > .shl-select-inputs-container > .ng-valid > .input > .input-content-container > .input-flex-box > .field > .ng-untouched')
-//Groups add Categories
-    groupsAddCategories = () => cy.get(':nth-child(2) > .card > .card__actions > sam-card-wrapper-actions.ng-star-inserted > .action > .action__initial > .action__initial-btn')
-//Groups add Qualifications
-    groupsAddQualifications = () => cy.get(':nth-child(4) > .card > .card__actions > sam-card-wrapper-actions.ng-star-inserted > .action > .action__initial > .action__initial-btn > .fas')
-//Groups save button
-    groupsAddSave = () => cy.get('[data-cy="groupe-save"]')
-//Groups Text name
-    groupsTextName = () => cy.get('.groupe__text')  
-
-
-
-
-
-//group detailed page
-// book resources button
-groupBookResourcesBtn = () =>    cy.get('[data-cy="book-resource-groupe"]')
-// delete group button
-deleteGroupBtn = () =>    cy.get('[data-cy="delete-groupe"]')
-// edit group general information button
-editGroupGeneralInfoBtn = () =>    cy.get('[data-cy="general-info-button"]') 
-// group category -  minus button
-groupCategoriesMinusBtn = () =>    cy.get('[data-cy="groupe-edit-minus"]')  
-//group category + Plus button
-groupCategoriesPlusBtn = () =>    cy.get('[data-cy="groupe-edit-plus"]')
-
-
-
-
+    
+    // ===== CREW ELEMENTS =====
+    
+    /**
+     * Get add crew button from crew list page
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getAddCrewButton() {
+        return cy.get('.add-crew__button');
+    }
+    
+    /**
+     * Get crew search field
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getCrewSearchField() {
+        return cy.get('[data-cy="crew-page-search"]');
+    }
+    
+    /**
+     * Get crew branch filter
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getCrewBranchFilter() {
+        return cy.get('[data-cy="crew-page-branch"]');
+    }
+    
+    /**
+     * Get crew type filter
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getCrewTypeFilter() {
+        return cy.get('[data-cy="crew-page-type"]');
+    }
+    
+    /**
+     * Get crew responsible person filter
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getCrewResponsiblePersonFilter() {
+        return cy.get('[data-cy="crew-page-responsible-person"]');
+    }
+    
+    /**
+     * Get clear all filters button
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getClearFiltersButton() {
+        return cy.get('[data-cy="clear-filters"]');
+    }
+    
+    /**
+     * Get crew details edit button
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getCrewDetailsEditButton() {
+        return cy.get('.kolone-details__button > .fas');
+    }
+    
+    // ===== CREW FORM ELEMENTS =====
+    
+    /**
+     * Get add crew title field
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getAddCrewTitleField() {
+        return cy.get('[data-cy="add-crew-title-field"]');
+    }
+    
+    /**
+     * Get add crew responsible person dropdown
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getAddCrewResponsiblePersonField() {
+        return cy.get('[data-cy="add-crew-responsible-field"]');
+    }
+    
+    /**
+     * Get add crew area dropdown
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getAddCrewAreaField() {
+        return cy.get('[data-cy="add-crew-area-field"]');
+    }
+    
+    /**
+     * Get add crew type field
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getAddCrewTypeField() {
+        return cy.get('[data-cy="add-crew-type-field"]');
+    }
+    
+    /**
+     * Get create crew button
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getCreateCrewButton() {
+        return cy.get('[data-cy="add-crew-create-field"]');
+    }
+    
+    // ===== CREW TABS =====
+    
+    /**
+     * Get add company car tab
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getAddCompanyCarTab() {
+        return cy.get('[data-cy="crew-add-car"]');
+    }
+    
+    /**
+     * Get add crew equipment tab
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getAddCrewEquipmentTab() {
+        return cy.get('[data-cy="crew-add-equipment"]');
+    }
+    
+    /**
+     * Get add crew person tab
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getAddCrewPersonTab() {
+        return cy.get('[data-cy="crew-add-person"]');
+    }
+    
+    /**
+     * Get general information tab
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getGeneralInfoTab() {
+        return cy.get('[data-cy="crew-general-info"]');
+    }
+    
+    /**
+     * Get crew equipment tab
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getCrewEquipmentTab() {
+        return cy.get('[data-cy="crew-equipment"]');
+    }
+    
+    /**
+     * Get crew personnel tab
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getCrewPersonnelTab() {
+        return cy.get('[data-cy="crew-person"]');
+    }
+    
+    /**
+     * Get crew overview tab
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getCrewOverviewTab() {
+        return cy.get('[data-cy="crew-overview"]');
+    }
+    
+    /**
+     * Get crew finish overview button
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getCrewFinishOverviewButton() {
+        return cy.get('[data-cy="add-crew-finish"]');
+    }
+    
+    /**
+     * Get crew booking calendar icon
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getCrewBookingCalendarIcon() {
+        return cy.get('[data-cy="crew-start-date"] > .shl-date-picker > shl-input.ng-untouched > .input > .input-content-container > .input-flex-box > .action > .shl-select-calendar-btn');
+    }
+    
+    // ===== GROUP ELEMENTS =====
+    
+    /**
+     * Get group branch filter
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getGroupBranchFilter() {
+        return cy.get('[data-cy="groupe-page-branch"]');
+    }
+    
+    /**
+     * Get group type filter
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getGroupTypeFilter() {
+        return cy.get('[data-cy="groupe-page-type"]');
+    }
+    
+    // ===== GROUP FORM ELEMENTS =====
+    
+    /**
+     * Get group add button
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getGroupAddButton() {
+        return cy.get('[data-cy="add-groupe"]');
+    }
+    
+    /**
+     * Get group add name field
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getGroupAddNameField() {
+        return cy.get('[data-cy="add-groupe-name"] > .input > .input-content-container > .input-flex-box > .input-flex-item > .ng-untouched');
+    }
+    
+    /**
+     * Get group add area dropdown
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getGroupAddAreaDropdown() {
+        return cy.get('[data-cy="add-area-dropdown"] > .shl-select > .shl-select-inputs-container > .ng-valid > .input > .input-content-container > .input-flex-box > .field > .ng-untouched');
+    }
+    
+    /**
+     * Get group add type dropdown
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getGroupAddTypeDropdown() {
+        return cy.get('[data-cy="add-type-dropdown"] > .shl-select > .shl-select-inputs-container > .ng-valid > .input > .input-content-container > .input-flex-box > .field > .ng-untouched');
+    }
+    
+    /**
+     * Get group add categories button
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getGroupAddCategoriesButton() {
+        return cy.get(':nth-child(2) > .card > .card__actions > sam-card-wrapper-actions.ng-star-inserted > .action > .action__initial > .action__initial-btn');
+    }
+    
+    /**
+     * Get group add qualifications button
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getGroupAddQualificationsButton() {
+        return cy.get(':nth-child(4) > .card > .card__actions > sam-card-wrapper-actions.ng-star-inserted > .action > .action__initial > .action__initial-btn > .fas');
+    }
+    
+    /**
+     * Get group add save button
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getGroupAddSaveButton() {
+        return cy.get('[data-cy="groupe-save"]');
+    }
+    
+    /**
+     * Get group text name element
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getGroupTextName() {
+        return cy.get('.groupe__text');
+    }
+    
+    // ===== GROUP DETAILED PAGE ELEMENTS =====
+    
+    /**
+     * Get group book resources button
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getGroupBookResourcesButton() {
+        return cy.get('[data-cy="book-resource-groupe"]');
+    }
+    
+    /**
+     * Get delete group button
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getDeleteGroupButton() {
+        return cy.get('[data-cy="delete-groupe"]');
+    }
+    
+    /**
+     * Get edit group general information button
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getEditGroupGeneralInfoButton() {
+        return cy.get('[data-cy="general-info-button"]');
+    }
+    
+    /**
+     * Get group categories minus button
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getGroupCategoriesMinusButton() {
+        return cy.get('[data-cy="groupe-edit-minus"]');
+    }
+    
+    /**
+     * Get group categories plus button
+     * @returns {Cypress.Chainable<JQuery<HTMLElement>>}
+     */
+    getGroupCategoriesPlusButton() {
+        return cy.get('[data-cy="groupe-edit-plus"]');
+    }
+    
+    // ===== LEGACY METHODS (for backward compatibility) =====
+    
+    // Crew elements
+    addCrewBtn = () => this.getAddCrewButton();
+    crewSearch = () => this.getCrewSearchField();
+    crewBranchFilter = () => this.getCrewBranchFilter();
+    crewTypeFilter = () => this.getCrewTypeFilter();
+    crewResponsiblePersonFilter = () => this.getCrewResponsiblePersonFilter();
+    clearFilters = () => this.getClearFiltersButton();
+    crewDetailesEditBtn = () => this.getCrewDetailsEditButton();
+    addCrewTitleField = () => this.getAddCrewTitleField();
+    addCrewResponsiblePersonField = () => this.getAddCrewResponsiblePersonField();
+    addCrewAreaField = () => this.getAddCrewAreaField();
+    addCrewTypeField = () => this.getAddCrewTypeField();
+    createCrewButton = () => this.getCreateCrewButton();
+    addCompanyCarTab = () => this.getAddCompanyCarTab();
+    addCrewEquipmentTab = () => this.getAddCrewEquipmentTab();
+    generalInfoTab = () => this.getGeneralInfoTab();
+    crewEquipmentTab = () => this.getCrewEquipmentTab();
+    crewPersonnelTab = () => this.getCrewPersonnelTab();
+    crewOerviewTab = () => this.getCrewOverviewTab();
+    CrewBookingCalendarIcon = () => this.getCrewBookingCalendarIcon();
+    
+    // Group elements
+    groupBranchFilter = () => this.getGroupBranchFilter();
+    groupTypeFilter = () => this.getGroupTypeFilter();
+    groupsAddButton = () => this.getGroupAddButton();
+    groupsAddName = () => this.getGroupAddNameField();
+    groupsAddArea = () => this.getGroupAddAreaDropdown();
+    groupsAddType = () => this.getGroupAddTypeDropdown();
+    groupsAddCategories = () => this.getGroupAddCategoriesButton();
+    groupsAddQualifications = () => this.getGroupAddQualificationsButton();
+    groupsAddSave = () => this.getGroupAddSaveButton();
+    groupsTextName = () => this.getGroupTextName();
+    groupBookResourcesBtn = () => this.getGroupBookResourcesButton();
+    deleteGroupBtn = () => this.getDeleteGroupButton();
+    editGroupGeneralInfoBtn = () => this.getEditGroupGeneralInfoButton();
+    groupCategoriesMinusBtn = () => this.getGroupCategoriesMinusButton();
+    groupCategoriesPlusBtn = () => this.getGroupCategoriesPlusButton();
 }

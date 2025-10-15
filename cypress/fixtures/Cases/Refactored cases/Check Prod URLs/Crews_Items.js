@@ -1,21 +1,55 @@
+/**
+ * Crews Items Test
+ * Tests the crews list page to verify crew items are displayed correctly
+ */
+
 import { ProjectElements } from '../../../../fixtures/Cases/Elements/ProjectElements/ProjectElements.js';
 import { AllURL } from '../../../../fixtures/Cases/Elements/SamURL/AllUrl.js';
-describe('My First Test Suite', function () {
+
+describe('Crews Items Test Suite', function () {
+    // Test data constants
+    const MIN_CREW_ITEMS = 1;
+    const LOGIN_WAIT_TIME = 10000;
+    const PAGE_LOAD_WAIT_TIME = 5000;
+
+    // Initialize page objects
+    let projectElements;
+    let allUrls;
+
+    // Load test data from fixture
+    before(function() {
+        cy.fixture('example').then(function(data) {
+            this.data = data;
+        });
+        
+        // Initialize page objects
+        projectElements = new ProjectElements();
+        allUrls = new AllURL();
+    });
    
-      it('Should add project than delete', function () {
-        const ProjectListPage = new ProjectElements()
-        const allUrls = new AllURL()
-          allUrls.samProdUrl()
-          ProjectListPage.userName().type('t.vatiashvili@syniotec.com');
-          ProjectListPage.password().type('Qwerty1$$');
-          ProjectListPage.loginBtn().click()
-          cy.wait(10000 )
-          cy.get(':nth-child(2) > .ch2-btn').click();
-          allUrls.crewListPage()
-         cy.wait(5000)
-         // check if there are more than 1 project
-          cy.get('.crew-item')
-          .its('length')
-          .should('be.greaterThan', 1);
-          });
-      });
+    it('Should verify crews list displays minimum required crew items', function () {
+        // ==================== LOGIN PROCESS ====================
+        // Navigate to login page
+        allUrls.samProdUrl();
+        
+        // Perform login with fixture credentials
+        projectElements.userName().type(this.data.users.testUser.email);
+        projectElements.password().type(this.data.users.testUser.password);
+        projectElements.loginBtn().click();
+        cy.wait(LOGIN_WAIT_TIME);
+        
+        // Accept cookies
+        allUrls.acceptCookiesBtn().click();
+        
+        // ==================== NAVIGATION ====================
+        // Navigate to crew list page
+        allUrls.crewListPage();
+        cy.wait(PAGE_LOAD_WAIT_TIME);
+        
+        // ==================== VERIFICATION ====================
+        // Verify crew items are displayed
+        cy.get('.crew-item')
+            .its('length')
+            .should('be.greaterThan', MIN_CREW_ITEMS);
+    });
+});

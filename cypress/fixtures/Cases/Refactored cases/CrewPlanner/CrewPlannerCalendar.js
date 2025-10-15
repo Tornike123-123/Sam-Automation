@@ -1,39 +1,49 @@
-// import { CrewPlannerElements } from '../../../../fixtures/Cases/Elements/CrewElements/CrewPlannerElements.js';
-// describe('Crew planner Calendar', () => {
-//     beforeEach(() => {
-//         const email = "reg.driver@syniotec.com";
-//         const password = "Qwerty1$";
-//         cy.session('login', () => {
-//             cy.SAMlogin(email, password);
-//         });
-//     });
-//     it('should check calendar date and choose today. checks if the today\s date is visible on the planner', () => {
+/**
+ * CrewPlanner - Calendar Test
+ * Tests calendar navigation and date selection functionality
+ */
 
-//         const crewElements = new CrewPlannerElements();
+import { setupCrewPlannerTest, CREW_PLANNER_CONFIG } from './crewPlannerConfig.js';
+import { CrewPlannerElements } from '../../Elements/CrewElements/CrewPlannerElements.js';
 
-//         cy.visit('https://sam.dev.syniotec.com/kolone/list');
+describe('CrewPlanner - Calendar Navigation', () => {
+    let crewElements;
 
-//         cy.wait(5000);
-//         crewElements.CrewPlannerPage();
-//         cy.wait(3000);
-//         //calendar date
-//         cy.get('.md-work-week-nav').click().should('be.visible');
-//         //calendar cell idk tu imushavebs
+    beforeEach(() => {
+        setupCrewPlannerTest();
+        crewElements = new CrewPlannerElements();
+    });
+
+    it('should navigate calendar dates and verify today\'s date is visible on the planner', () => {
+        // Navigate to crews list page first
+        cy.visit(CREW_PLANNER_CONFIG.urls.crewsList);
+        cy.wait(CREW_PLANNER_CONFIG.waitTimes.veryLong);
         
-//         cy.wait(1000);
+        // Navigate to CrewPlanner page
+        crewElements.getCrewPlannerPageLink();
+        cy.wait(CREW_PLANNER_CONFIG.waitTimes.medium);
         
-//         const today = new Date();
-//         const day = today.getDate();
-//         today.setDate(today.getDate() + 1); // Increment day by 1
+        // Test calendar navigation
+        cy.get('.md-work-week-nav').click().should('be.visible');
+        cy.wait(CREW_PLANNER_CONFIG.waitTimes.short);
         
-//         const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
-//         const formattedDate = today.toLocaleDateString('en-US', options);
+        // Get current date and calculate test date
+        const today = new Date();
+        const testDay = today.getDate();
+        const testDate = new Date(today);
+        testDate.setDate(today.getDate() + 1); // Increment day by 1
         
-//         //console.log(`aria-label="${formattedDate}"`);
-//         cy.get(`[aria-label="19"]`).eq(1).click({force: true});   
-//         //Today button
-//         cy.get('[data-cy="crew-planner-today"]').click();
-//         //active date (today)
-//         cy.get(`:nth-child(${day}) > .mbsc-timeline-header-date > .mbsc-ios.ng-star-inserted > sam-day-template.ng-star-inserted > .mbsc-ios`).should('be.visible');
-//     });
-// });
+        const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+        const formattedDate = testDate.toLocaleDateString('en-US', options);
+        
+        // Click on specific date (using hardcoded value as in original)
+        cy.get(`[aria-label="19"]`).eq(1).click({ force: true });
+        
+        // Click today button
+        crewElements.getTodayButton().click();
+        
+        // Verify today's date is visible in the timeline header
+        cy.get(`:nth-child(${testDay}) > .mbsc-timeline-header-date > .mbsc-ios.ng-star-inserted > sam-day-template.ng-star-inserted > .mbsc-ios`)
+            .should('be.visible');
+    });
+});

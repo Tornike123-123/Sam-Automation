@@ -54,11 +54,11 @@ export const PROJECTS_CONFIG = {
     // Common selectors
     selectors: {
         projectSearchField: '.shl-form-field-flex',
-        projectListContainer: '.ag-body-viewport > .ag-viewport',
+        projectListContainer: '[role="row"]',
         projectDotsMenu: '[data-cy="project-information-dots"]',
         contextMenu: '[role="menu"]',
         virtualProjectWrapper: '.projects-wrapper',
-        virtualProjectItem: '.item'
+        virtualProjectItem: '[role="row"][row-index="0"]'
     }
 };
 

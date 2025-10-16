@@ -51,8 +51,8 @@ export const WAREHOUSE_CONFIG = {
     // Common selectors
     selectors: {
         warehouseSearch: '[data-cy="warehouse-filter-search"]',
-        warehouseGrid: '.virtual__gird',
-        warehouseContent: '.lobby__content'
+        warehouseGrid: '[role="row"]',
+        warehouseContent: '[role="row"][row-index="0"]'
     }
 };
 

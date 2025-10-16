@@ -211,7 +211,7 @@ hrPlannerPage  = () =>    cy.visit('https://sam.syniotec.com/new-hr-planner')
   searchProjectByTitle = () => cy.get('.shl-form-field-infix > .ng-pristine')
   
   // Click on first searched project
-  firstProject = () => cy.get('.virtual__gird').find('.lobby__content:first')
+  firstProject = () => cy.get('[role="row"][row-index="0"]')
   
 
   
@@ -448,7 +448,7 @@ branchDropdown = () => cy.get('.ng-tns-c291203045-7.ng-invalid > .shl-select > .
 // Responsible person
 responsiblePersonField = () => cy.get('[data-cy="add-warehouse-responsible-person"]')
 // Click on first searched project
-firstWarehouse = () => cy.get('.virtual__gird').find('.lobby__content:first')
+firstWarehouse = () => cy.get('[role="row"][row-index="0"]')
 addWarehouse = () => cy.get('[data-cy="add-warehouse-submit"]')
 // Description
 warehouseDescription = () => cy.get('[data-cy="add-warehouse-description"]')

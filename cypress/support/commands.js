@@ -3,11 +3,12 @@ import { CrewsElements } from '../fixtures/Cases/Elements/CrewElements/CrewsElem
 import { CrewPlannerElements } from '../fixtures/Cases/Elements/CrewElements/CrewPlannerElements.js';
 import { PersonElements } from '../fixtures/Cases/Elements/PersonElements/PersonElements.js';
 import { DatabaseElements } from '../fixtures/Cases/Elements/EquipmentElements/DatabaseElements.js';
+import { ProjectElements } from '../fixtures/Cases/Elements/ProjectElements/ProjectElements.js';
 
 import '@4tw/cypress-drag-drop';
 const crewPlannerElements = new CrewPlannerElements();
 const crewElements = new CrewsElements();
-const addEquipment = new DatabaseElements();
+const addEquipment = new ProjectElements();
 const personElements = new PersonElements();
 
 Cypress.Commands.add('SAMlogin', (email, password) => {
@@ -36,26 +37,26 @@ Cypress.Commands.add('CreateCrewWithName', (CrewName) => {
         crewElements.CrewTypeAdd().click();
         cy.contains('Road construction').click();
         cy.get('.add-form__box').should('have.css', 'background-color', 'rgb(243, 26, 26)');
-        crewElements.CrewCreatebutton().click({force: true});
+        crewElements.getCreateCrewButton().click({force: true});
         cy.get('.confirmation__actions > .filled').click();
 });
 
 
 
 Cypress.Commands.add('CreateCrew', () => {
-    crewElements.CrewAddButton().click().should('be.visible');
+    crewElements.getAddCrewButton().click().should('be.visible');
     cy.wait(5000);
-    crewElements.CrewTitleAdd().type('Test Name');
-    crewElements.CrewResponsiblePersonAdd().click();
+    crewElements.getCrewTitleInput().type('Test Name');
+    crewElements.getCrewResponsiblePersonDropdown().click();
         cy.contains('only, one').click();
-        crewElements.CrewAreaAdd().click();
+        crewElements.getCrewAreaDropdown().click();
         cy.contains('Direction 1').click();
-        crewElements.CrewTypeAdd().click();
+        crewElements.getCrewTypeInput().click();
 
         //cy.contains('Road construction').click();
         cy.get('#mat-option-0').click();
         cy.get('.add-form__box').should('have.css', 'background-color', 'rgb(243, 26, 26)');
-        crewElements.CrewCreatebutton().click({force: true});
+        crewElements.getCreateCrewButton().click({force: true});
         cy.get('.confirmation__actions > .filled').click();
 });
 
@@ -164,23 +165,23 @@ Cypress.Commands.add('CrewOverviewFinish', () => {
 
 Cypress.Commands.add('CrewPlannerFilters', () => {
     //Title
-    crewPlannerElements.crewPlannerSearchByTitleFilter().click().type('reg');
+    crewPlannerElements.getSearchByTitleFilter().click().type('reg');
      cy.wait(1000)
     //Project
-    // crewPlannerElements.crewPlannerProjectFilter().click();
+    // crewPlannerElements.getProjectFilter().click();
     // cy.get(':nth-child(1) > .shl-select-option').click();
     // cy.get('[data-cy="crew-planner-projects"] > .shl-select > .shl-select-inputs-container > .ng-valid > .input > .input-content-container > .input-flex-box > .action > .shl-select-close').click();
         //Branch
-    crewPlannerElements.crewPlannerBranchFilter().click({ force : true }).realHover();
+    crewPlannerElements.getBranchFilter().click({ force : true }).realHover();
     cy.get('.shl-select-options-container > :nth-child(1) > :nth-child(1) > :nth-child(1) > :nth-child(1) > .shl-select-option-dropdown > .ng-star-inserted').click();
     cy.contains(' Direction 1 ').click({force: true}); 
     //Calendar
-    crewPlannerElements.CrewCalendarIcon().click();       
-    crewPlannerElements.CalendarTodayCircle().click();
-    crewPlannerElements.CalendarTodayCircle().click();
+    crewPlannerElements.getCalendarIcon().click();       
+    crewPlannerElements.getCalendarTodayCircle().click();
+    crewPlannerElements.getCalendarTodayCircle().click();
     //cy.get('.cdk-overlay-backdrop').click();
     //filter icon
-    crewPlannerElements.CrewFilterIcon().click();
+    crewPlannerElements.getFilterIcon().click();
     cy.get('.filter-container__body-item > .filter-container__form-select > .shl-select > .shl-select-inputs-container > .ng-valid > .input > .input-content-container > .input-flex-box > .action > .shl-select-close').click();
     cy.get(':nth-child(1) > .shl-select-options').click();
     cy.wait(2000);
@@ -189,7 +190,7 @@ Cypress.Commands.add('CrewPlannerFilters', () => {
     cy.get('.filter-container__footer-submit').click();
     //clear filters
     
-    //crewPlannerElements.CrewFilterIcon().click();
+    //crewPlannerElements.getFilterIcon().click();
     cy.get('.filter').click();
     cy.get('.filter-container__footer-clear').click();
     cy.get('.filter-container__header-close > img').click();
@@ -343,11 +344,11 @@ Cypress.Commands.add('DeleteEquipment', () => {
     //Update Status
     //addEquipment.databaseUpdateStatus().click({force : true})
 
-    //incative radio btn 
-    addEquipment.databaseInactiveRadioBtn().click()
+    //inactive radio btn 
+    cy.get('.radio-control-wrapper > :nth-child(2)').click()
 
     //Inactive reason
-    addEquipment.databaseInactiveReason().click();
+    cy.get('.dropdown-control > .ng-select-searchable > .ng-select-container').click();
   //cy.get(':nth-child(1) > .ng-dropdown-panel ng-star-inserted ng-select-bottom').click()
     cy.contains('Under maintenance').click()
     
@@ -356,16 +357,16 @@ Cypress.Commands.add('DeleteEquipment', () => {
     cy.get('[formcontrolname="inactiveStartDate"] > .datepicker > shl-date-picker.ng-untouched').click();
     cy.get('.today > span').click()
     cy.get('.cdk-overlay-backdrop').invoke('css', 'pointer-events', 'none');  
-    addEquipment.databaseUpdateStatusStartDate().click()
+    cy.get('[data-cy="update-status-start-date"]').click()
     //End date
     cy.get('shl-date-picker.ng-untouched > .shl-date-picker > .ng-valid > .input > .input-content-container > .input-flex-box').click();
     cy.get('.today > span').click()
     cy.get('.cdk-overlay-backdrop').invoke('css', 'pointer-events', 'none');  
-    addEquipment.databaseUpdateStatusEndDate().click()
+    cy.get('[data-cy="update-status-end-date"]').click()
 
     //Update status btn
     cy.get('.mdc-label').click()
-    addEquipment.databaseUpdateStatusBtn().click()
+    cy.get('[data-cy="update-status-btn"]').click()
     cy.wait(5000)
 
      //Delete btn
@@ -380,7 +381,7 @@ Cypress.Commands.add('DeleteEquipment', () => {
     cy.wait(2000)
  cy.get('.ng-dropdown-panel-items').find('.ng-option').eq(1).click();
  cy.wait(2000)
-    addEquipment.databaseDeleteBtn().first().click({ force: true });
+    cy.get('[data-cy="database-delete-btn"]').first().click({ force: true });
     cy.get('.confirmation__actions > .filled').click()
 })
 

@@ -3,7 +3,7 @@
  * Tests the basic filtering functionality on the map
  */
 
-import { setupMapTest, navigateToMap } from './mapConfig.js';
+import { setupMapTest, navigateToMap, MAP_CONFIG } from './mapConfig.js';
 import { MapHelpers } from './mapHelpers.js';
 
 describe('Map - Basic Filters', () => {

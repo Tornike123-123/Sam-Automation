@@ -21,8 +21,12 @@ export class EquipmentPlannerHelpers {
     searchEquipmentByName(equipmentName) {
         this.elements.getSearchByNameFilter()
             .click()
-            .type('{selectAll}{backspace}')
-            .type(equipmentName);
+            .type('{selectAll}{backspace}');
+        
+        // Only type if equipmentName is not empty
+        if (equipmentName && equipmentName.trim() !== '') {
+            this.elements.getSearchByNameFilter().type(equipmentName);
+        }
     }
 
     /**

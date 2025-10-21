@@ -218,19 +218,19 @@ hrPlannerPage  = () =>    cy.visit('https://sam.syniotec.com/new-hr-planner')
 
   
   // Add request button
-  addRequestBtn = () => cy.get('.header__section > .filled')
+  addRequestBtn = () => cy.get('[data-cy="add-request"]')
   
   // Category name field
   categoryName = () => cy.get('.category-search__input')
   
   // Category dropdown
-  categoryDropdown = () => cy.get('.category-search__content-list')
+  categoryDropdown = () => cy.get('.shl-select-options-container')
   
   // Further information
-  furtherInformation = () => cy.get('.mat-mdc-text-field-wrapper')
+  furtherInformation = () => cy.get('[data-cy="equipment-request-description-input"]')
   
   // Send all request button
-  sendAllRequests = () => cy.get('.add-equipment__button-container > .filled')
+  sendAllRequests = () => cy.get('[data-cy="equipment-request-submit-button"]')
   
   // Login URL
   samUrl = () => cy.visit('https://login.sam.dev.syniotec.com/')
@@ -255,13 +255,13 @@ hrPlannerPage  = () =>    cy.visit('https://sam.syniotec.com/new-hr-planner')
   personnelTabBtn = () => cy.get('#mat-tab-label-1-1')
   
   // Add person request qualification field
-  addPersonQualificationField = () => cy.get('.shl-select-inputs-container > .ng-valid > .input > .input-content-container > .input-flex-box')
+  addPersonQualificationField = () => cy.get('[data-cy="person-request-qualification-select"] > .shl-select > .shl-select-inputs-container > .ng-valid > .input > .input-content-container > .input-flex-box')
   
   // Add person request take element from qualification dropdown
   addPersonRequestChooseQualification = () => cy.get('.shl-tree-option-parent.ng-star-inserted')
   
   // Add person request start date picker
-  addPersonRequestStartDatePicker = () => cy.get('[formcontrolname="startDate"] > .datepicker > shl-date-picker.ng-untouched > .shl-date-picker > shl-input.ng-untouched > .input > .input-content-container > .input-flex-box')
+  addPersonRequestStartDatePicker = () => cy.get('.shl-date-range-picker > :nth-child(1) > .ng-valid > .input > .input-content-container > .input-flex-box')
   
   // Add person request get calendar container
   addPersonRequestChooseDate = () => cy.get('.shl-calendar-container').find('.shl-calendar-date.selectable.ng-star-inserted')
@@ -276,10 +276,10 @@ hrPlannerPage  = () =>    cy.visit('https://sam.syniotec.com/new-hr-planner')
   addPersonRequestEndDatePicker = () => cy.get('.shl-date-picker > shl-input.ng-untouched > .input > .input-content-container > .input-flex-box')
   
   // Add person request additional info field
-  addPersonRequestAdditionalInfoField = () => cy.get('.shl-form-field-infix > .ng-untouched')
+  addPersonRequestAdditionalInfoField = () => cy.get('[data-cy="person-request-description-input"]')
   
   // Send all person requests
-  sendAllPersonRequests = () => cy.get('.request-person__button-container > .filled')
+  sendAllPersonRequests = () => cy.get('[data-cy="person-request-submit-button"]')
   
   // Project list page
   devprojectListPage = () => cy.visit('https://sam.dev.syniotec.com/project/list')
@@ -288,7 +288,10 @@ hrPlannerPage  = () =>    cy.visit('https://sam.syniotec.com/new-hr-planner')
   projectDetailedPersonalTab = () => cy.get('#mat-tab-group-0-label-1')
   
   // Personnel new request accordion
-  personnelNewRequestAccordion = () => cy.get('#accordion-header-1 > .accordeon-header')
+  personnelNewRequestAccordion = () => cy.get('.shl-tab-view-header.ng-star-inserted').contains('Personal')
+  
+  // Personnel tab
+  personnelTab = () => cy.get('.shl-tab-view-header.ng-star-inserted').contains('Personal')
   
   // Personnel new request card "X" button
   personnelCardXButton = () => cy.get('.badge-container')
@@ -338,6 +341,21 @@ activeBtn  = () =>    cy.get('[data-cy="project-make-active-inactive-button"]')
 activeProjectYesBtn = () => cy.get('.confirmation__actions > .filled')
 // Inactive list page, search by title field
 searchInactiveProject = () => cy.get('.shl-form-field-flex')
+// Project information dots button
+projectInformationDots = () => cy.get('[data-cy="project-information-dots"]')
+
+// Project context menu popup
+projectContextMenu = () => cy.get('#cdk-menu-0')
+
+// Deactivate option in context menu
+deactivateOption = () => cy.get('#cdk-menu-0').contains('Deactivate')
+
+// Edit option in context menu
+editOption = () => cy.get('#cdk-menu-0').contains('Edit')
+
+// Activate option in context menu
+activateOption = () => cy.get('#cdk-menu-0').contains('activate')
+
 // Edit Inactive  button
 editInactiveBtn = () => cy.get('[data-cy="project-edit-button"]')
 
@@ -447,8 +465,8 @@ warehousebranchField = () => cy.get('[data-cy="add-warehouse-department"]')
 branchDropdown = () => cy.get('.ng-tns-c291203045-7.ng-invalid > .shl-select > .shl-select-inputs-container > .ng-valid > .input > .input-content-container > .input-flex-box')
 // Responsible person
 responsiblePersonField = () => cy.get('[data-cy="add-warehouse-responsible-person"]')
-// Click on first searched project
-firstWarehouse = () => cy.get('[role="row"][row-index="0"]')
+// Click on first searched warehouse
+firstWarehouse = () => cy.get('.lobby__content').first()
 addWarehouse = () => cy.get('[data-cy="add-warehouse-submit"]')
 // Description
 warehouseDescription = () => cy.get('[data-cy="add-warehouse-description"]')

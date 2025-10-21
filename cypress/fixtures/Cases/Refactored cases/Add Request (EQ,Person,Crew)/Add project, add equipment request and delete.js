@@ -1,4 +1,4 @@
-/// <reference types="cypress" />
+
 import { ProjectElements } from '../../Elements/ProjectElements/ProjectElements.js';
 
 describe('My First Test Suite', function () {
@@ -10,28 +10,21 @@ describe('My First Test Suite', function () {
 
   it('should add project', function () {
    
-   
-    const AddProject = new ProjectElements();
-    AddProject.samUrl()
-    AddProject.userName().type('reg.driver@syniotec.com');
-    AddProject.password().type('Qwerty1$');
-    AddProject.loginBtn().click()
-    AddProject.acceptCookiesBtn().click();
-   
-
-    // Steps to continue after login
-    
-    // Continue with other steps
- 
-// cy.visit(`https://sam.dev.syniotec.com/project/list`)
-
-
-
+   cy.viewport(1920, 1000);
+      const AddProject = new ProjectElements();
+      AddProject.samUrl()
+        AddProject.userName().type('reg.driver@syniotec.com');
+        AddProject.password().type('Qwerty1$');
+        AddProject.loginBtn().click()
+        cy.wait(10000 ) 
+        AddProject.acceptCookiesBtn().click();
     AddProject.floatingMenuBtn().click({force: true});
     AddProject.floatingAddProject().click()
-    AddProject.costCenterField().click().type(`Automation cost`)    
+    cy.wait(4000)
+    AddProject.costCenterField().click({ force: true }).type(`Automation cost`)    
     const projectName = "Cypress_test"+ new Date().toString();
     AddProject.projectTitleField().click().type(projectName)
+
      // ბრენჩის არჩევა
     AddProject.branchField().click()
  
@@ -56,30 +49,25 @@ describe('My First Test Suite', function () {
 
 cy.wait(3000)
 
-cy.get('.shl-form-field-flex').click().type(projectName);
+cy.get('.shl-form-field-flex').click().type('{selectAll}{backspace}').type(projectName);
 cy.wait(3000)
    AddProject.firstProject().contains(projectName).click()
 
    // add request flow  
-   AddProject.addRequestBtn().click()
+   cy.get('[data-cy="add-request"]').click({ force: true })
         cy.wait(5000)
         // add request flow
-    AddProject.categoryName().click()
-    AddProject.categoryDropdown().first().click()
-    AddProject.furtherInformation().type(`information`)
-    AddProject.sendAllRequests().click()
-      // back to project
-    AddProject.backToProjectBtn().click()
-      //click on new requests
-    AddProject.newRequestTab().click()
-      cy.wait(2000)
+        cy.get('[data-cy="equipment-request-category-select"]').click()
+        AddProject.categoryDropdown().first().click()
+        AddProject.furtherInformation().type(`information`)
+        AddProject.sendAllRequests().click()
+   
   // .click({ force: true });
-    AddProject.editRequestBtn().click()
-    AddProject.deleteEquipmentRequestBtn().click({ force: true });
+  cy.get('[data-cy="action-dots"]').click()
+  cy.get('.cdk-menu-item.menu__item').contains('entfernen').click()
     AddProject.deleteRequestYesBtn().click()
-      // delete project
-    AddProject.deleteProjectBtn().click()
+    cy.get('[data-cy="project-information-dots"]').click()
+    cy.get('.cdk-menu.cdk-menu-group.menu.ng-star-inserted').contains('entfernen').click()
     AddProject.deleteProjectYesBtn().click()
-
   });
 });

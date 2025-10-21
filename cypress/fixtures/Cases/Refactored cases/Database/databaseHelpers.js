@@ -96,7 +96,7 @@ export class DatabaseHelpers {
  */
 export const testDatabaseFilters = () => {
     const helpers = new DatabaseHelpers();
-    const { testData } = CREWS_CONFIG;
+    const { testData } = DATABASE_CONFIG;
     
     // Test all filters
     helpers.testAllFilters();

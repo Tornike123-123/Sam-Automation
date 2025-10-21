@@ -376,16 +376,21 @@ export class ProjectsHelpers {
      * Make project inactive
      */
     makeProjectInactive() {
-        this.elements.inactiveBtn().click();
+        this.elements.projectInformationDots().click();
+        cy.wait(2000);
+        this.elements.deactivateOption().click();
+        cy.wait(2000);
         this.elements.inactiveProjectYesBtn().click();
-        cy.wait(PROJECTS_CONFIG.waitTimes.long);
+        cy.wait(3000);
     }
 
     /**
      * Make project active
      */
     makeProjectActive() {
-        this.elements.activeBtn().click();
+        this.elements.projectInformationDots().click();
+        cy.wait(2000);
+        this.elements.activateOption().click();
         this.elements.activeProjectYesBtn().click();
     }
 
@@ -393,7 +398,10 @@ export class ProjectsHelpers {
      * Edit inactive project
      */
     editInactiveProject() {
-        this.elements.editInactiveBtn().click();
+        // Open context menu first, then click edit
+        this.elements.projectInformationDots().click();
+        cy.wait(2000);
+        this.elements.editOption().click();
     }
 
     /**

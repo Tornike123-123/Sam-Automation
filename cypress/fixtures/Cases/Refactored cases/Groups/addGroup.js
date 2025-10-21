@@ -3,7 +3,7 @@
  * Tests creating a new group
  */
 
-import { setupGroupsTest, navigateToGroups } from './groupsConfig.js';
+import { setupGroupsTest, navigateToGroups, GROUPS_CONFIG } from './groupsConfig.js';
 import { GroupsHelpers } from './groupsHelpers.js';
 
 describe('Groups - Add Group', () => {

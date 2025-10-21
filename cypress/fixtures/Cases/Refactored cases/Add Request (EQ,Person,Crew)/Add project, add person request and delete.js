@@ -7,6 +7,7 @@ describe('This case will create project add request, delete request and delete p
     });
   });
   it('should add project', function () { 
+    cy.viewport(1920, 1000);
     const AddProjectPersonRequestAndDelete = new ProjectElements();
     AddProjectPersonRequestAndDelete.samUrl()
     AddProjectPersonRequestAndDelete.userName().type('reg.driver@syniotec.com');
@@ -42,31 +43,30 @@ cy.wait(5000)
       // add request flow
     AddProjectPersonRequestAndDelete.addRequestBtn().click()
     cy.wait(2000)
-    cy.get('#mat-tab-group-1-label-1').click({ force: true });
+    AddProjectPersonRequestAndDelete.personnelNewRequestAccordion().click({ force: true })
+    cy.wait(2000)
     AddProjectPersonRequestAndDelete.addPersonQualificationField().click()
     AddProjectPersonRequestAndDelete.addPersonRequestChooseQualification().contains('Baumaschinenführer').click();
     AddProjectPersonRequestAndDelete.addPersonRequestStartDatePicker().click()
     AddProjectPersonRequestAndDelete.addPersonRequestChooseDate().contains('23').click()
-    AddProjectPersonRequestAndDelete.backgroundClick()
-    AddProjectPersonRequestAndDelete.addPersonRequestEndDatePicker().click()
-    AddProjectPersonRequestAndDelete.addPersonRequestChooseDate().contains('2').click()
-    AddProjectPersonRequestAndDelete.backgroundClick()
+    cy.get(':nth-child(2) > .shl-calendar > .shl-calendar-container > shl-plane-calendar-dates > .shl-calendar-dates > :nth-child(5) > :nth-child(7) > span').click()
+
     AddProjectPersonRequestAndDelete.addPersonRequestAdditionalInfoField().click().type(`additional info`)
     AddProjectPersonRequestAndDelete.sendAllPersonRequests().click()
-     cy.wait(5000)
-    cy.visit('https://sam.dev.syniotec.com/project/list');
-     //AddProjectPersonRequestAndDelete.projectListPage().click()
-    cy.wait(10000)
-    AddProjectPersonRequestAndDelete.firstProject().contains(projectName).click()
-    cy.get('#mat-tab-group-0-label-1').click()
-    cy.wait(2000)
-    AddProjectPersonRequestAndDelete.personnelNewRequestAccordion().click()
-    AddProjectPersonRequestAndDelete.personnelCardXButton().click()
+   
+    cy.wait(3000)
+    cy.get('[data-cy="persons-tab"]').click()
+    cy.get('[data-cy="action-dots"]').click()
+    cy.get('.cdk-menu-item.menu__item').contains('Anfrage löschen').click()
+    
     AddProjectPersonRequestAndDelete.personnelRequestDeleteYesBtn().click()
-    AddProjectPersonRequestAndDelete.deleteProjectBtn().click()
+    cy.get('[data-cy="project-information-dots"]').click()
+    cy.get('.cdk-menu.cdk-menu-group.menu.ng-star-inserted').contains('entfernen').click()
+
     AddProjectPersonRequestAndDelete.deleteProjectYesBtn().click()
       
   });
 
         });
 
+ 

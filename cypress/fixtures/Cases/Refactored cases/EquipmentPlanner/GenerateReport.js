@@ -19,9 +19,9 @@ describe('Generate equipment report', () => {
 
         cy.wait(10000);
 
-        generateReport.EqReportButton().click();
-        generateReport.EqWorkingHoursReport().click();
-        generateReport.EqReportCalendar().click(); 
+        generateReport.getReportButton().click();
+        generateReport.getWorkingHoursReport().click();
+        generateReport.getReportCalendar().click(); 
         cy.get('.shl-calendar-header-txt > :nth-child(1)').click();
         cy.get('.shl-month-picker-container > .shl-calendar-header-switch > .shl-calendar-header-txt').click();
         cy.get('shl-month-calendar > shl-year-calendar > .shl-year-picker > .shl-year-picker-container > .shl-calendar-header-switch > :nth-child(1) > .shl-calendar-btn > .shl-i').click();
@@ -30,7 +30,7 @@ describe('Generate equipment report', () => {
         cy.get('.shl-calendar-dates > :nth-child(1) > :nth-child(5) > span').click();
         cy.get('.shl-calendar-dates > :nth-child(5) > :nth-child(6) > span').click();
 
-        generateReport.EqReportSaveBtn().click();
+        generateReport.getReportSaveButton().click();
         //რეპორტ პანელის ჩაკეცვა და გახსნა
         cy.get('.export-header__rightside > :nth-child(1) > svg-icon').click();
         cy.get('.rotated').click();

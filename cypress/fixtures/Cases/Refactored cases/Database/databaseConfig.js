@@ -19,10 +19,10 @@ export const DATABASE_CONFIG = {
     testData: {
         equipmentName: "Caterpillar H120GC",
         branch: "Direction 1",
-        category: "3-Achs-Kipper",
+        category: " 3-Axle Tipper ",
         operator: "DIspatcher, Bacho",
-        orderBy: "Zuerst hinzugefügt",
-        status: "Aktiv",
+        orderBy: " oldest update ",
+        status: " Active ",
         viewport: {
             width: 1920,
             height: 1080

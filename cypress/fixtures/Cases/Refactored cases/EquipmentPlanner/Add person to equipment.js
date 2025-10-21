@@ -31,6 +31,20 @@ describe('EquipmentPlanner - Person to Equipment Management', () => {
         
         // Open equipment info popup
         helpers.elements.getEquipmentInfoPopupIcon().click();
+        
+        // Override window.open to prevent new tabs
+        cy.window().then((win) => {
+            const originalOpen = win.open;
+            win.open = (url, target) => {
+                if (target === '_blank') {
+                    win.location.href = url;
+                } else {
+                    return originalOpen.call(win, url, target);
+                }
+            };
+        });
+        
+        // Click the profile button
         cy.get('[data-cy="equipment-info-profile"]').click();
 
         // Add person to equipment

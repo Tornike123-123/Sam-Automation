@@ -140,7 +140,7 @@ export class WarehouseHelpers {
         this.elements.responsiblePersonField().click();
         this.elements.responsibleDropdown().contains(WAREHOUSE_CONFIG.testData.responsiblePerson).click();
         this.elements.warehouseDescription().click().type(newDescription);
-        
+        cy.wait(2000);
         this.elements.addWarehouse().click({ force: true });
     }
 

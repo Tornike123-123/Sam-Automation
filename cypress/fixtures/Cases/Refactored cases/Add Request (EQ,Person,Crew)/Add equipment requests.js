@@ -1,48 +1,32 @@
-/// <reference types="cypress" />
-import { ProjectElements } from '../../Elements/ProjectElements/ProjectElements.js';
+/**
+ * Add Equipment Request Test
+ * Tests the creation of equipment requests for existing projects
+ */
 
-describe('My First Test Suite', function () {
-  before(function () {
-    cy.fixture('example').then(function (data) {
-      this.data = data;
+import { AddRequestHelpers } from './addRequestHelpers.js';
+
+describe('Add Equipment Request Test Suite', function () {
+    before(function () {
+        cy.fixture('example').then(function (data) {
+            this.data = data;
+        });
     });
-  });
 
-  it('should add project', function () {
-   
-   
-    const AddProject = new ProjectElements();
-    AddProject.samUrl()
-    AddProject.userName().type('reg.driver@syniotec.com');
-    AddProject.password().type('Qwerty1$');
-    AddProject.loginBtn().click()
-    AddProject.acceptCookiesBtn().click();
-   
-
-    // Steps to continue after login
-    
-    // Continue with other steps
- 
-// cy.visit(`https://sam.dev.syniotec.com/project/list`)
-
-
-
-    cy.visit(`https://sam.dev.syniotec.com/project/list`)
-    cy.wait(4000)
-    cy.get('.shl-form-field-flex').click().type('{selectAll}{backspace}');
-    cy.get('.shl-form-field-flex').click().type(`Cypress_test`)
-    AddProject.firstProject().contains('Cypress_test').click()
-
-   // add request flow  
-   cy.get('[data-cy="add-request"]').click({ force: true })
-        cy.wait(5000)
-        // add request flow
-        cy.get('[data-cy="equipment-request-category-select"]').click()
-        AddProject.categoryDropdown().first().click()
-        AddProject.furtherInformation().type(`information`)
-        AddProject.sendAllRequests().click()
+    it('should add equipment request to existing project', function () {
+        const helpers = new AddRequestHelpers();
+        const projectName = 'Cypress_test'; // Using existing project name
         
+        // Login and navigate to project list
+        helpers.login();
+        cy.visit('https://sam.dev.syniotec.com/project/list');
+        cy.wait(4000);
+        
+        // Search and select existing project
+        cy.get('.shl-form-field-flex').click().type('{selectAll}{backspace}');
+        cy.get('.shl-form-field-flex').click().type(projectName);
+        helpers.elements.firstProject().contains(projectName).click();
 
-
-  });
+        // Add equipment request
+        helpers.addEquipmentRequest();
+    });
 });

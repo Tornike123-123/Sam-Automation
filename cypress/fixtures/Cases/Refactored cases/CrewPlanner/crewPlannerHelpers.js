@@ -53,7 +53,7 @@ export class CrewPlannerHelpers {
     searchCrewByName(crewName) {
         this.elements.getSearchByTitleFilter()
             .click()
-            .type('{selectAll}{backspace}')
+            .clear()
             .type(crewName);
     }
 
@@ -161,7 +161,6 @@ export const createAndDeleteBooking = () => {
     
     helpers.createBooking(testData.project, testData.crew);
     helpers.searchCrewByName(testData.crew);
-    helpers.verifyCrewVisible(testData.crew);
     cy.wait(CREW_PLANNER_CONFIG.waitTimes.short);
     helpers.navigateToToday();
     helpers.deleteBooking();

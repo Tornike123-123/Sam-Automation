@@ -16,7 +16,7 @@ export class CrewPlannerElements {
     /**
      * Search by title filter input
      */
-    getSearchByTitleFilter = () => cy.get('.shl-form-field-flex');
+    getSearchByTitleFilter = () => cy.get('.shl-form-field-flex input');
     
     /**
      * Branch filter dropdown

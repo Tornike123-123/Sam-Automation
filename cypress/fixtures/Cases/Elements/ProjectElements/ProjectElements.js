@@ -380,7 +380,7 @@ editInactiveBtn = () => cy.get('[data-cy="project-edit-button"]')
    // Delete request button
    deleteEquipmentRequestBtn = () => cy.get('[data-cy="project-delete-assigment"]')
    // Delete request yes button
-   deleteRequestYesBtn = () => cy.get('.confirmation__actions > .filled')
+   deleteRequestYesBtn = () => cy.get('.filled')
 
    
 // New request tab   
